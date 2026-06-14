@@ -155,6 +155,16 @@ animation:pulse 1.5s infinite;
 100%{box-shadow:0 0 5px pink;}
 }
 
+/* INPUT */
+input{
+width:100%;
+padding:12px;
+border-radius:20px;
+border:none;
+margin-top:10px;
+text-align:center;
+}
+
 #volumeNote{
 position:fixed;
 top:10px;
@@ -172,11 +182,19 @@ font-size:12px;
 <source src="music.mp3">
 </audio>
 
-<!-- ⭐ INTRO1 ALWAYS BEHIND EVERYTHING ⭐ -->
-<video id="intro1" muted playsinline></video>
+<!-- PAGE 0 -->
+<div id="page0" class="page">
+<video id="intro1" autoplay muted playsinline></video>
 
-<!-- ⭐ PAGE 1 IS NOW THE FIRST PAGE ⭐ -->
-<div id="page1" class="page">
+<div id="lockBox" class="glass textGlass">
+<h2>🔐 Enter Password</h2>
+<input type="password" id="pass" placeholder="MMDD">
+<button onclick="unlock()">Unlock 💖</button>
+</div>
+</div>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page hidden">
 <video muted playsinline id="intro2"></video>
 
 <img src="gif1.gif">
@@ -251,16 +269,11 @@ June-12th,<br>
 </div>
 
 <script>
-/* ⭐ LOAD intro1 ⭐ */
+/* ⭐ AUTO‑SWITCH VIDEO SOURCES ⭐ */
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-const intro1 = document.getElementById("intro1");
-intro1.src = isMobile ? "intro1v.mp4" : "intro1.mp4";
-intro1.load();
-intro1.play().catch(()=>{});
-
-/* ⭐ AUTO‑SWITCH OTHER VIDEOS ⭐ */
 const videoSources = {
+    intro1: isMobile ? "intro1v.mp4" : "intro1.mp4",
     intro2: isMobile ? "intro2v.mp4" : "intro2.mp4",
     intro3: isMobile ? "intro3v.mp4" : "intro3.mp4",
     intro4: isMobile ? "intro4v.mp4" : "intro4.mp4",
@@ -275,6 +288,19 @@ Object.keys(videoSources).forEach(id => {
         v.load();
     }
 });
+
+/* PASSWORD */
+function unlock(){
+let p=document.getElementById("pass").value;
+
+if(p==="0612"){
+document.getElementById("page0").classList.add("hidden");
+document.getElementById("music").play();
+showPage(1);
+}else{
+alert("Wrong password😝");
+}
+}
 
 /* PAGE SWITCH */
 function showPage(n){
