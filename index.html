@@ -30,19 +30,7 @@ left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-2;
-}
-
-/* OVERLAY */
-body::after{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0);
-z-index:-1;
+z-index:-3;
 }
 
 /* PAGE */
@@ -59,6 +47,28 @@ padding:20px;
 transition:0.8s ease;
 }
 
+/* PAGE 0 BACKGROUND IMAGE */
+#page0 {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index:-2;
+}
+
+/* Desktop background */
+@media (min-width: 769px) {
+    #page0 {
+        background-image: url('img.jpg');
+    }
+}
+
+/* Mobile background */
+@media (max-width: 768px) {
+    #page0 {
+        background-image: url('imgv.jpg');
+    }
+}
+
 .hidden{
 opacity:0;
 transform:translateY(30px) scale(0.95);
@@ -68,13 +78,25 @@ pointer-events:none;
 /* GLASS BACKGROUND */
 .textGlass{
 background:rgba(255,255,255,0.15);
-backdrop-filter:blur(5px);
-padding:15px 25px;
-border-radius:18px;
-margin-top:10px;
+backdrop-filter:blur(8px);
+padding:18px 32px;
+border-radius:20px;
 }
 
-/* TEXT */
+/* TAP TEXT */
+#tapText{
+font-size:32px;
+font-family:'Great Vibes',cursive;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:0.6;}
+50%{opacity:1;}
+100%{opacity:0.6;}
+}
+
+/* OTHER TEXT */
 .typewriter,
 .peachText,
 .hand {
@@ -144,27 +166,12 @@ transform:scale(0.9);
 box-shadow:0 0 20px gold;
 }
 
-/* TAP TO BEGIN */
-#tapText{
-font-size:28px;
-font-family:'Great Vibes',cursive;
-background:rgba(255,255,255,0.2);
-padding:15px 30px;
-border-radius:20px;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:0.6;}
-50%{opacity:1;}
-100%{opacity:0.6;}
-}
-
 #volumeNote{
 position:fixed;
 top:10px;
 right:10px;
 font-size:12px;
+z-index:10;
 }
 </style>
 </head>
@@ -180,9 +187,11 @@ font-size:12px;
 <!-- ⭐ INTRO1 ALWAYS BEHIND EVERYTHING ⭐ -->
 <video id="intro1" muted playsinline></video>
 
-<!-- ⭐ PAGE 0 — TAP TO BEGIN ⭐ -->
+<!-- ⭐ PAGE 0 — TAP TO BEGIN WITH GLASS BACKGROUND ⭐ -->
 <div id="page0" class="page">
-    <div id="tapText" onclick="begin()">Tap to Begin</div>
+    <div class="textGlass" onclick="begin()">
+        <h2 id="tapText">Tap to Begin</h2>
+    </div>
 </div>
 
 <!-- PAGE 1 -->
