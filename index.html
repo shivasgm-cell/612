@@ -144,25 +144,20 @@ transform:scale(0.9);
 box-shadow:0 0 20px gold;
 }
 
-/* GLOW */
-#whatBtn{
-animation:pulse 1.5s infinite;
+/* TAP TO BEGIN */
+#tapText{
+font-size:28px;
+font-family:'Great Vibes',cursive;
+background:rgba(255,255,255,0.2);
+padding:15px 30px;
+border-radius:20px;
+animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-0%{box-shadow:0 0 5px pink;}
-50%{box-shadow:0 0 25px gold;}
-100%{box-shadow:0 0 5px pink;}
-}
-
-/* INPUT */
-input{
-width:100%;
-padding:12px;
-border-radius:20px;
-border:none;
-margin-top:10px;
-text-align:center;
+0%{opacity:0.6;}
+50%{opacity:1;}
+100%{opacity:0.6;}
 }
 
 #volumeNote{
@@ -182,15 +177,12 @@ font-size:12px;
 <source src="music.mp3">
 </audio>
 
-<!-- PAGE 0 -->
-<div id="page0" class="page">
-<video id="intro1" autoplay muted playsinline></video>
+<!-- ⭐ INTRO1 ALWAYS BEHIND EVERYTHING ⭐ -->
+<video id="intro1" muted playsinline></video>
 
-<div id="lockBox" class="glass textGlass">
-<h2>🔐 Enter Password</h2>
-<input type="password" id="pass" placeholder="MMDD">
-<button onclick="unlock()">Unlock 💖</button>
-</div>
+<!-- ⭐ PAGE 0 — TAP TO BEGIN ⭐ -->
+<div id="page0" class="page">
+    <div id="tapText" onclick="begin()">Tap to Begin</div>
 </div>
 
 <!-- PAGE 1 -->
@@ -269,11 +261,25 @@ June-12th,<br>
 </div>
 
 <script>
-/* ⭐ AUTO‑SWITCH VIDEO SOURCES ⭐ */
+/* ⭐ LOAD intro1 ⭐ */
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+const intro1 = document.getElementById("intro1");
+intro1.src = isMobile ? "intro1v.mp4" : "intro1.mp4";
+intro1.load();
+
+/* ⭐ BEGIN FUNCTION ⭐ */
+function begin(){
+    document.getElementById("page0").classList.add("hidden");
+
+    intro1.play().catch(()=>{});
+    document.getElementById("music").play().catch(()=>{});
+
+    showPage(1);
+}
+
+/* ⭐ AUTO‑SWITCH OTHER VIDEOS ⭐ */
 const videoSources = {
-    intro1: isMobile ? "intro1v.mp4" : "intro1.mp4",
     intro2: isMobile ? "intro2v.mp4" : "intro2.mp4",
     intro3: isMobile ? "intro3v.mp4" : "intro3.mp4",
     intro4: isMobile ? "intro4v.mp4" : "intro4.mp4",
@@ -288,19 +294,6 @@ Object.keys(videoSources).forEach(id => {
         v.load();
     }
 });
-
-/* PASSWORD */
-function unlock(){
-let p=document.getElementById("pass").value;
-
-if(p==="0612"){
-document.getElementById("page0").classList.add("hidden");
-document.getElementById("music").play();
-showPage(1);
-}else{
-alert("Wrong password😝");
-}
-}
 
 /* PAGE SWITCH */
 function showPage(n){
