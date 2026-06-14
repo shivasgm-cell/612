@@ -75,25 +75,23 @@ transform:translateY(30px) scale(0.95);
 pointer-events:none;
 }
 
-/* GLASS BACKGROUND */
-.textGlass{
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(8px);
-padding:18px 32px;
-border-radius:20px;
+/* TAP BUTTON (NO GLASS, BLACK TEXT, GLOW EFFECT) */
+#tapButton{
+    font-size:32px;
+    font-family:'Great Vibes',cursive;
+    color:black;
+    padding:18px 40px;
+    border-radius:25px;
+    background:white;
+    box-shadow:0 0 20px rgba(255,255,255,0.7);
+    animation:glowPulse 1.8s infinite;
+    cursor:pointer;
 }
 
-/* TAP TEXT */
-#tapText{
-font-size:32px;
-font-family:'Great Vibes',cursive;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:0.6;}
-50%{opacity:1;}
-100%{opacity:0.6;}
+@keyframes glowPulse{
+    0% { box-shadow:0 0 10px rgba(255,255,255,0.4); transform:scale(1); }
+    50% { box-shadow:0 0 35px rgba(255,255,255,0.9); transform:scale(1.05); }
+    100% { box-shadow:0 0 10px rgba(255,255,255,0.4); transform:scale(1); }
 }
 
 /* OTHER TEXT */
@@ -134,7 +132,7 @@ max-width:75%;
     object-fit: contain;
     border-radius: 28px;
     box-shadow: 0 0 35px rgba(255,255,255,0.35);
-    animation: fadeIn 4.0s ease forwards, glowPulse 3s ease-in-out infinite;
+    animation: fadeIn 4.0s ease forwards, glowPulse2 3s ease-in-out infinite;
 }
 
 @keyframes fadeIn {
@@ -142,7 +140,7 @@ max-width:75%;
     to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes glowPulse {
+@keyframes glowPulse2 {
     0% { box-shadow: 0 0 10px rgba(255,255,255,0.25); }
     50% { box-shadow: 0 0 35px rgba(255,255,255,0.55); }
     100% { box-shadow: 0 0 10px rgba(255,255,255,0.25); }
@@ -187,11 +185,9 @@ z-index:10;
 <!-- ⭐ INTRO1 ALWAYS BEHIND EVERYTHING ⭐ -->
 <video id="intro1" muted playsinline></video>
 
-<!-- ⭐ PAGE 0 — TAP TO BEGIN WITH GLASS BACKGROUND ⭐ -->
+<!-- ⭐ PAGE 0 — TAP TO BEGIN WITH BLACK TEXT + GLOW ⭐ -->
 <div id="page0" class="page">
-    <div class="textGlass" onclick="begin()">
-        <h2 id="tapText">Tap to Begin</h2>
-    </div>
+    <div id="tapButton" onclick="begin()">Tap to Begin</div>
 </div>
 
 <!-- PAGE 1 -->
